@@ -6,7 +6,10 @@
 
 The **Advanced Voice Assistance App** is a powerful personal assistant designed to facilitate user interactions through voice commands. Built using Python 🐍, this application combines speech recognition, text-to-speech capabilities, and various APIs to provide a seamless user experience. From searching the web 🌐 to controlling applications, the assistant simplifies everyday tasks with just your voice! 
 
-<img src="https://i.pinimg.com/originals/44/a5/2c/44a52caf835ad2d687e4d67ec8016632.gif" alt="Advance Voice Assistance App" width="350" height="248" style="border-radius: 100px; display: block; margin: 0 auto;">
+<div style="display: flex; justify-content: center;">
+    <img src="https://i.pinimg.com/originals/44/a5/2c/44a52caf835ad2d687e4d67ec8016632.gif" alt="Advance Voice Assistance App" width="350" height="248" style="border-radius: 100px;">
+</div>
+
 
 
 ## Features
