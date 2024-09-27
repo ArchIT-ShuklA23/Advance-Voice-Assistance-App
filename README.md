@@ -1,8 +1,8 @@
-```
+
 <div style="text-align: center;">
     <img src="https://i.pinimg.com/originals/44/a5/2c/44a52caf835ad2d687e4d67ec8016632.gif" alt="Advance Voice Assistance App" width="600" height="400">
 </div>
-```
+
 # Advanced Voice Assistance App 🎤🤖
 
 ## Overview
