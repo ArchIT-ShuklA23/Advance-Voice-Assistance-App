@@ -10,7 +10,7 @@ import sys
 import wolframalpha
 import sqlite3 as sq
 import random
-
+import requests
 from threading import *
 
 
@@ -120,7 +120,9 @@ def new_GUI():
 
     15) play quiz game with me
 
-    16)API services-> WOLF-RAM-ALPHA
+    16) Wether in "City_name" -> For wether information
+
+    17)API services-> WOLF-RAM-ALPHA, openweathermap
     """
  # Create a Text widget to display the commands #062b06
     # text_area = Text(root, bg='#228B22', fg='White', font=('Arial', 12), wrap='word')
@@ -426,7 +428,30 @@ def quiz_game():
     else:
         speak("Okay, let's stop the quiz game. Let me know if you want to play again!")
         
+def get_weather(city):
+    # city = "rajkot"
+    api_key = "b1adeb43d88add8d493f1b5bc31eba19"  # Replace with your OpenWeatherMap API key
+    base_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+    
+    try:
+        response = requests.get(base_url)
+        data = response.json()
+
+        if data["cod"] != 200:
+            speak("City not found.")
+            return
         
+        main = data["main"]
+        weather_desc = data["weather"][0]["description"]
+        temperature = main["temp"]
+
+        weather_info = f"The weather in {city} is {weather_desc} with a temperature of {temperature} degrees Celsius."
+        speak(weather_info)
+        printo(weather_info)
+
+    except Exception as e:
+        printo(e)
+        speak("Sorry, I couldn't retrieve the weather information.")        
         ''''''   
 def reco():
     while True:  # Continuously listens for voice commands
@@ -437,6 +462,9 @@ def reco():
         usertext.set("".join(command_history))  # Display the command on the screen
         if 'play quiz game with me' in query:
             quiz_game()
+        elif 'weather in' in query:
+            city = query.replace("weather in", "").strip()  # Extract city name from command
+            get_weather(city)
         # Logic for executing tasks based on query
         elif 'search google' in query:
             srch_google()
