@@ -407,7 +407,7 @@ quiz_questions = [
 def quiz_game():
     # Select a random question
     question = random.choice(quiz_questions)
-    speak('OK'+ name + "Let's play a quiz game! Here's your question:")
+    speak(f"OK {name}, let's play a quiz game! Here's your question:")
     speak(question["question"])
     
     # Listen to the user's answer
@@ -415,18 +415,23 @@ def quiz_game():
     
     # Check if the answer is correct
     if question["answer"] in user_answer:
-        speak("Congratulations!" + name + "That's the correct answer! 🎉")
+        speak(f"Congratulations, {name}! That's the correct answer! 🎉")
     else:
-        speak(f"Oops!"+ name + "The correct answer is {question['answer']}. Better luck next time!")
+        speak(f"Oops, {name}! The correct answer is {question['answer']}. Better luck next time!")
     
     # Ask if the user wants to continue 
-    speak("Do you want to continue the quiz game?")
+    speak("Do you want to continue the quiz game? (say please continue or please stop the game)")
     response = Commands().lower()
     
-    if 'yes' in response:
+    # Normalize the response checking
+    if response in ['yes', 'y', 'yeah', 'sure', 'absolutely', 'please continue']:
         quiz_game()  # Recursively start a new round of the quiz
-    else:
+    else: 
+        # response in ['no', 'n', 'nah', 'nope', 'please stop the game']:
         speak("Okay, let's stop the quiz game. Let me know if you want to play again!")
+    # else:
+    #     speak("I didn't understand that. Please respond with 'please continue' or 'please stop the game'.")
+    #     quiz_game()  # Prompt again if the input is unclear
         
 def get_weather(city):
     # city = "rajkot"
