@@ -12,6 +12,7 @@ import sqlite3 as sq
 import random
 import requests
 from threading import *
+import cv2  # Add this line for OpenCV
 
 
 from tkinter import *
@@ -457,7 +458,40 @@ def get_weather(city):
     except Exception as e:
         printo(e)
         speak("Sorry, I couldn't retrieve the weather information.")        
-        ''''''   
+        '''''' 
+def capture_photo():
+    cap = cv2.VideoCapture(0)  # Open the default camera
+    ret, frame = cap.read()  # Read a frame from the camera
+    if ret:
+        cv2.imwrite("captured_photo.jpg", frame)  # Save the frame as a JPEG file
+        speak("Photo captured successfully!")
+    else:
+        speak("Could not capture photo.")
+    cap.release()  # Release the camera
+
+def capture_video(duration=5):
+    cap = cv2.VideoCapture(0)  # Open the default camera
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')  # Define the codec
+    out = cv2.VideoWriter('captured_video.avi', fourcc, 20.0, (640,  480))  # Create a VideoWriter object
+    speak(f"Recording video for {duration} seconds.")
+    
+    start_time = dt.datetime.now()
+    while (dt.datetime.now() - start_time).seconds < duration:
+        ret, frame = cap.read()
+        if ret:
+            out.write(frame)  # Write the frame to the video file
+            cv2.imshow('Recording', frame)  # Show the frame in a window
+            if cv2.waitKey(1) & 0xFF == ord('q'):  # Stop recording if 'q' is pressed
+                break
+        else:
+            break
+
+    cap.release()  # Release the camera
+    out.release()  # Release the VideoWriter
+    cv2.destroyAllWindows()  # Close all OpenCV windows
+    speak("Video recorded successfully!")
+
+
 def reco():
     while True:  # Continuously listens for voice commands
         query = Commands().lower()  # Get the user's voice command and convert to lowercase
@@ -471,6 +505,17 @@ def reco():
             city = query.replace("weather in", "").strip()  # Extract city name from command
             get_weather(city)
         # Logic for executing tasks based on query
+        elif 'capture photo' in query:
+            capture_photo()
+
+        elif 'record video' in query:
+            speak("How long should I record the video? Please say the duration in seconds.")
+            duration = Commands()
+            try:
+                duration = int(duration)
+                capture_video(duration)
+            except ValueError:
+                speak("Please provide a valid number for the duration.")
         elif 'search google' in query:
             srch_google()
 
